@@ -12,6 +12,7 @@ Maven or Gradle [](https://maven.apache.org/download.cgi)
 1. Clone the repository: https://github.com/ameya44/food-fighters-api.git
 2. mvn clean install
 3. To run on localhost run 'mvn spring-boot:run' in terminal
+4. run localhost:8080 on a browser to verify
 
 # Development
 Additional notes on how to contribute to the project:
