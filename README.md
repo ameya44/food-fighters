@@ -18,6 +18,8 @@ This is a simple web application for logging your daily food intake. The app all
 ## Mongo DB schema
 ## MongoDB Schema
 
+
+
 User Collection:
 {
 "_id": ObjectId,
