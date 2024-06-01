@@ -1,10 +1,8 @@
 package com.bitlu.foodfightersapi.foodfighters.controller;
 
-import com.bitlu.foodfightersapi.foodfighters.FoodFightersApplication;
 import com.bitlu.foodfightersapi.foodfighters.model.User;
 import com.bitlu.foodfightersapi.foodfighters.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +14,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
+@Slf4j
 public class UserController {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -30,7 +27,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
-        logger.info("Finding User by ID {}", id);
+        log.info("Finding User by ID {}", id);
         Optional<User> userOptional = userRepository.findById(id);
         return userOptional.map(user -> new ResponseEntity<>(user, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -38,7 +35,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
-        logger.info("Saving User  {}", user);
+        log.info("Saving User  {}", user);
         user.setCreatedAt(new Date());
         user.setUpdatedAt(new Date());
         User savedUser = userRepository.save(user);
@@ -48,6 +45,7 @@ public class UserController {
     public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User user) {
     Optional<User> userEdit = userRepository.findById(id);
         if (userEdit.isPresent()) {
+
             user.setUserId(id);
             user.setUpdatedAt(new Date());
             userRepository.save(user);
@@ -60,7 +58,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable String id) {
-        logger.info("Deleting User  {}", id);
+        log.info("Deleting User  {}", id);
         userRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

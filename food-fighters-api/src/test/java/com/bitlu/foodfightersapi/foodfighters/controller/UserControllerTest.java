@@ -1,5 +1,4 @@
 package com.bitlu.foodfightersapi.foodfighters.controller;
-import com.bitlu.foodfightersapi.foodfighters.controller.UserController;
 import com.bitlu.foodfightersapi.foodfighters.model.User;
 import com.bitlu.foodfightersapi.foodfighters.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,13 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-public class UserCRUDTest {
+public class UserControllerTest {
 
 
     @Mock
@@ -34,8 +32,8 @@ public class UserCRUDTest {
     @Test
     void testGetAllUsers() {
         List<User> userList = new ArrayList<>();
-        userList.add(new User("user1", "user1@example.com", "password1"));
-        userList.add(new User("user2", "user2@example.com", "password2"));
+        userList.add(new User());
+        userList.add(new User());
 
         when(userRepository.findAll()).thenReturn(userList);
 
