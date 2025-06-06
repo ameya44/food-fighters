@@ -1,0 +1,63 @@
+Modules to Implement
+
+==================MVP======================================
+1. Authentication & Authorization
+User Registration (email/password)
+
+Login + JWT Token issuance
+
+Role-based access (e.g., USER, ADMIN)
+
+Password reset (optional)
+
+ 2. User Profile
+Age, weight, height, gender
+
+Goal: lose/maintain/gain weight
+
+Daily calorie target + macro goals
+
+3. Food Logging
+Search food and log meals
+
+Add custom food or recipes
+
+Store timestamp, portion, meal type
+
+Log water intake (optional)
+==================MVP======================================
+ 4. Nutrition Summary
+Daily calories + macros chart
+
+Weekly/monthly trends
+
+Remaining calories for the day
+
+ 5. Activity Logging (optional)
+Log workouts or sync with Apple/Google Fit
+
+Calories burned per activity
+
+ 6. Reminders & Streaks
+Daily log reminder notifications
+
+Reward streaks for consistency
+
+ 7. Admin Food DB Management
+Add/modify food entries
+
+Approve user-submitted food
+
+Bulk upload from CSV/API
+
+ 8. Reports & Analytics
+Charts: calorie intake, macros, weight change
+
+Export to PDF/CSV (optional)
+
+ 9. Settings & Preferences
+Units (grams/oz, kcal/kJ)
+
+Notification preferences
+
+Dark mode/theme toggle (frontend)
