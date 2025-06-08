@@ -1,32 +1,42 @@
 package com.bitlu.foodfightersapi.foodfighters.model;
 
-import lombok.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.Date;
 
-@Document(collection="Users")
+import java.time.Instant;
+import java.util.List;
+
+@Document(collection = "Users")
 @Data
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
 
     @Id
-    private String userId;
+    private String id;
+
+    @NotBlank
     private String username;
+
+    @NotBlank
+    @Email(message = "Invalid email format")
     private String email;
-    private String password;
+
+    @NotBlank
+    private String password; // Stored as hashed
+
+    private List<String> roles = List.of("USER");
 
     @CreatedDate
-    private Date createdAt;
+    private Instant createdDate;
 
     @LastModifiedDate
-    private Date updatedAt;
-
-
-    public User(String user1, String mail, String password1) {
-    }
+    private Instant lastModifiedDate;
 }
