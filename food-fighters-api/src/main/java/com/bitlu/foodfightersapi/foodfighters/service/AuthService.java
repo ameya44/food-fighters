@@ -4,15 +4,20 @@ import com.bitlu.foodfightersapi.foodfighters.config.JwtUtil;
 import com.bitlu.foodfightersapi.foodfighters.dto.AuthRequest;
 import com.bitlu.foodfightersapi.foodfighters.dto.AuthResponse;
 import com.bitlu.foodfightersapi.foodfighters.dto.RegisterRequest;
+import com.bitlu.foodfightersapi.foodfighters.model.LoginLog;
 import com.bitlu.foodfightersapi.foodfighters.model.User;
+import com.bitlu.foodfightersapi.foodfighters.repository.LoginLogRepository;
 import com.bitlu.foodfightersapi.foodfighters.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,15 +42,40 @@ public class AuthService {
         return "User registered successfully";
     }
 
-    public AuthResponse login(AuthRequest request) {
-        User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("Invalid username"));
+    @Autowired
+    private LoginLogRepository loginLogRepository;
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid password");
+    public AuthResponse login(AuthRequest request) {
+        Optional<User> userOpt = userRepository.findByUsername(request.getUsername());
+        boolean success = false;
+        String message;
+
+        if (userOpt.isEmpty()) {
+            message = "User not found";
+        } else {
+            User user = userOpt.get();
+            if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+                success = true;
+                message = "Login successful";
+            } else {
+                message = "Invalid password";
+            }
         }
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        // Save login log
+        loginLogRepository.save(new LoginLog(
+                null,
+                request.getUsername(),
+                Instant.now(),
+                success,
+                message
+        ));
+
+        if (!success) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, message);
+        }
+
+        String token = jwtUtil.generateToken(request.getUsername());
         return new AuthResponse(token);
     }
 }

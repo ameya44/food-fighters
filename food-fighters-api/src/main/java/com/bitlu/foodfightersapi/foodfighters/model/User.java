@@ -11,6 +11,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = "Users")
@@ -35,7 +36,7 @@ public class User {
     private List<String> roles = List.of("USER");
 
     @CreatedDate
-    private Instant createdDate;
+    private Date createdDate;
 
     @LastModifiedDate
     private Instant lastModifiedDate;
